@@ -6,7 +6,7 @@ class WidgetUserIdle(QtWidgets.QWidget):
     SIZE_W = 300
     SIZE_H = 160
 
-    def __init__(self, module):
+    def __init__(self, addon):
         super(WidgetUserIdle, self).__init__()
 
         self.setWindowTitle("AYON - Stop timers")
@@ -25,7 +25,7 @@ class WidgetUserIdle(QtWidgets.QWidget):
         self._countdown = 0
         self._countdown_start = 0
 
-        self.module = module
+        self._addon = addon
 
         msg_info = "You didn't work for a long time."
         msg_question = "Would you like to stop Timers?"
@@ -149,14 +149,14 @@ class WidgetUserIdle(QtWidgets.QWidget):
         self.btn_close.setVisible(self._timer_stopped)
 
     def _stop_timers(self):
-        self.module.stop_timers()
+        self.addon.stop_timers()
 
     def _on_stop_clicked(self):
         self._stop_timers()
         self._close_widget()
 
     def _on_restart_clicked(self):
-        self.module.restart_timers()
+        self.addon.restart_timers()
         self._close_widget()
 
     def _on_continue_clicked(self):
@@ -189,8 +189,8 @@ class SignalHandler(QtCore.QObject):
     signal_show_message = QtCore.Signal()
     signal_stop_timers = QtCore.Signal()
 
-    def __init__(self, module):
+    def __init__(self, addon):
         super(SignalHandler, self).__init__()
-        self.module = module
-        self.signal_show_message.connect(module.show_message)
-        self.signal_stop_timers.connect(module.stop_timers)
+        self.addon = addon
+        self.signal_show_message.connect(addon.show_message)
+        self.signal_stop_timers.connect(addon.stop_timers)

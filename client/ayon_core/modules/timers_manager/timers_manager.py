@@ -132,8 +132,8 @@ class TimersManager(
         self._widget_user_idle = None
         self._idle_manager = None
 
-        self._connectors_by_module_id = {}
-        self._modules_by_id = {}
+        self._connectors_by_addon_id = {}
+        self._addons_by_id = {}
 
     def tray_init(self):
         if not self.auto_stop:
@@ -277,9 +277,9 @@ class TimersManager(
         - convert context to timer data
         """
         times = {}
-        for module_id, connector in self._connectors_by_module_id.items():
+        for module_id, connector in self._connectors_by_addon_id.items():
             if hasattr(connector, "get_task_time"):
-                module = self._modules_by_id[module_id]
+                module = self._addons_by_id[module_id]
                 times[module.name] = connector.get_task_time(
                     project_name, asset_name, task_name
                 )
@@ -290,7 +290,7 @@ class TimersManager(
 
         New timer has started for context in data.
         """
-        for module_id, connector in self._connectors_by_module_id.items():
+        for module_id, connector in self._connectors_by_addon_id.items():
             if module_id == source_id:
                 continue
 
@@ -315,7 +315,7 @@ class TimersManager(
         - pass context for which timer has stopped to validate if timers are
             same and valid
         """
-        for module_id, connector in self._connectors_by_module_id.items():
+        for module_id, connector in self._connectors_by_addon_id.items():
             if module_id == source_id:
                 continue
 
@@ -343,9 +343,9 @@ class TimersManager(
 
         self.timer_stopped(None)
 
-    def connect_with_addons(self, enabled_modules):
-        for module in enabled_modules:
-            connector = getattr(module, "timers_manager_connector", None)
+    def connect_with_addons(self, enabled_addons):
+        for addon in enabled_addons:
+            connector = getattr(addon, "timers_manager_connector", None)
             if connector is None:
                 continue
 
@@ -360,11 +360,11 @@ class TimersManager(
                 )
                 self.log.info((
                     "Module \"{}\" has missing required methods {}."
-                ).format(module.name, joined))
+                ).format(addon.name, joined))
                 continue
 
-            self._connectors_by_module_id[module.id] = connector
-            self._modules_by_id[module.id] = module
+            self._connectors_by_addon_id[addon.id] = connector
+            self._addons_by_id[addon.id] = addon
 
             # Optional method
             if hasattr(connector, "register_timers_manager"):
@@ -373,8 +373,8 @@ class TimersManager(
                 except Exception:
                     self.log.info((
                         "Failed to register timers manager"
-                        " for connector of module \"{}\"."
-                    ).format(module.name))
+                        " for connector of addon \"{}\"."
+                    ).format(addon.name))
 
     def show_message(self):
         if self.is_running is False:
@@ -383,12 +383,12 @@ class TimersManager(
             self._widget_user_idle.reset_countdown()
             self._widget_user_idle.show()
 
-    # Webserver module implementation
+    # Webserver addon implementation
     def webserver_initialization(self, server_manager):
         """Add routes for timers to be able start/stop with rest api."""
         if self.tray_initialized:
-            from .rest_api import TimersManagerModuleRestApi
-            self.rest_api_obj = TimersManagerModuleRestApi(
+            from .rest_api import TimersManagerAddonRestApi
+            self.rest_api_obj = TimersManagerAddonRestApi(
                 self, server_manager
             )
 

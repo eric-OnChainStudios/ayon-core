@@ -4,17 +4,17 @@ from aiohttp.web_response import Response
 from ayon_core.lib import Logger
 
 
-class TimersManagerModuleRestApi:
+class TimersManagerAddonRestApi:
     """
         REST API endpoint used for calling from hosts when context change
         happens in Workfile app.
     """
-    def __init__(self, user_module, server_manager):
+    def __init__(self, user_addon, server_manager):
         self._log = None
-        self.module = user_module
-        self.server_manager = server_manager
+        self._addon = user_addon
+        self._server_manager = server_manager
 
-        self.prefix = "/timers_manager"
+        self._prefix = "/timers_manager"
 
         self.register()
 
@@ -25,19 +25,19 @@ class TimersManagerModuleRestApi:
         return self._log
 
     def register(self):
-        self.server_manager.add_route(
+        self._server_manager.add_route(
             "POST",
-            self.prefix + "/start_timer",
+            self._prefix + "/start_timer",
             self.start_timer
         )
-        self.server_manager.add_route(
+        self._server_manager.add_route(
             "POST",
-            self.prefix + "/stop_timer",
+            self._prefix + "/stop_timer",
             self.stop_timer
         )
-        self.server_manager.add_route(
+        self._server_manager.add_route(
             "GET",
-            self.prefix + "/get_task_time",
+            self._prefix + "/get_task_time",
             self.get_task_time
         )
 
@@ -55,16 +55,16 @@ class TimersManagerModuleRestApi:
             self.log.error(msg)
             return Response(status=400, message=msg)
 
-        self.module.stop_timers()
+        self._addon.stop_timers()
         try:
-            self.module.start_timer(project_name, asset_name, task_name)
+            self._addon.start_timer(project_name, asset_name, task_name)
         except Exception as exc:
             return Response(status=404, message=str(exc))
 
         return Response(status=200)
 
     async def stop_timer(self, request):
-        self.module.stop_timers()
+        self._addon.stop_timers()
         return Response(status=200)
 
     async def get_task_time(self, request):
@@ -81,5 +81,5 @@ class TimersManagerModuleRestApi:
             self.log.warning(message)
             return Response(text=message, status=404)
 
-        time = self.module.get_task_time(project_name, asset_name, task_name)
+        time = self._addon.get_task_time(project_name, asset_name, task_name)
         return Response(text=json.dumps(time))
