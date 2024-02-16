@@ -14,8 +14,8 @@ class RoyalRenderAddon(AYONAddon, IPluginPaths):
     # def rr_api(self):
     #     if not self._rr_api:
     #         # import royal render modules
-    #         from .api import Api
-    #         self._rr_api = Api(self.settings)
+    #         from .rr_api import RRApi
+    #         self._rr_api = RRApi(self.settings)
     #     return self._rr_api
 
     def initialize(self, studio_settings):

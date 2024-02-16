@@ -17,7 +17,7 @@ from ayon_core.lib import (
     is_in_tests,
 )
 from ayon_core.lib.execute import run_ayon_launcher_process
-from ayon_core.modules.royalrender.api import Api as rrApi
+from ayon_core.modules.royalrender.rr_api import RRApi
 from ayon_core.modules.royalrender.rr_job import (
     CustomAttribute,
     RRJob,
@@ -116,7 +116,7 @@ class BaseCreateRoyalRenderJob(pyblish.api.InstancePlugin,
                 ("Missing RoyalRender root. "
                  "You need to configure RoyalRender module."))
 
-        self.rr_api = rrApi(self._rr_root)
+        self.rr_api = RRApi(self._rr_root)
 
         self.scene_path = context.data["currentFile"]
         if self.use_published:

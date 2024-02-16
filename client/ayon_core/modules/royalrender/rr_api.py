@@ -5,11 +5,11 @@ import os
 
 from ayon_core.lib.local_settings import AYONSettingsRegistry
 from ayon_core.lib import Logger, run_subprocess
-from .rr_job import RRJob, SubmitFile, SubmitterParameter
 from ayon_core.lib.vendor_bin_utils import find_tool_in_custom_paths
+from .rr_job import RRJob, SubmitFile, SubmitterParameter
 
 
-class Api:
+class RRApi:
 
     _settings = None
     RR_SUBMIT_CONSOLE = 1
