@@ -151,7 +151,7 @@ class PublishReportMaker:
         if hasattr(plugin, "label"):
             label = plugin.label
         import inspect
-        print("ZZZAAA dir(plugin)", dir(plugin))
+        print("dir(plugin)", dir(plugin))
         return {
             "id": plugin.id,
             "name": plugin.__name__,
