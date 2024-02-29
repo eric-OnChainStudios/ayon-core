@@ -319,11 +319,22 @@ class ClassInfoWidget(QtWidgets.QWidget):
         plugin_item = self._report_item.plugins_items_by_id[plugin_filter]
         print("plugin_item", plugin_item)
         print("dir(plugin_item)", dir(plugin_item))
+        print("plugin_item.name", plugin_item.name)
+        print("plugin_item.id", plugin_item.id)
+        print("plugin_item.filepath", plugin_item.filepath)
+        # plugin_item.filepath returns C:\Users\Braden\AppData\Local\Ynput\AYON\dependency_packages\ayon_2402141620_windows.zip\dependencies\pyblish\plugin.py
+        # returns not the path to the collect scene item plugin
+        print("plugin_item.families", plugin_item.families)
 
     def set_report(self, report):
         self._report_item = report
+        print("report", report)
+        print("dir(report)", dir(report))
+        print("report.plugins_items_by_id", report.plugins_items_by_id)
+        print("instance_items_by_id", report.instance_items_by_id)
         self._plugin_filter = set()
         self._instance_filter = set()
+        # self._update_logs()
 
 
 class DeselectableTreeView(QtWidgets.QTreeView):

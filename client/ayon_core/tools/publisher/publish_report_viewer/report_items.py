@@ -13,6 +13,9 @@ class PluginItem:
         self.skipped = plugin_data["skipped"]
         self.passed = plugin_data["passed"]
 
+        self.filepath = plugin_data["filepath"]
+        self.families = plugin_data["families"]
+
         errored = False
         for instance_data in plugin_data["instances_data"]:
             for log_item in instance_data["logs"]:
