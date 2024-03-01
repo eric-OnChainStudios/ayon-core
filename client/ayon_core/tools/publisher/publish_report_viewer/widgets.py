@@ -317,14 +317,18 @@ class ClassInfoWidget(QtWidgets.QWidget):
         plugin_filter = list(plugin_filter)[0]
         self._plugin_filter = plugin_filter
         plugin_item = self._report_item.plugins_items_by_id[plugin_filter]
+        print("plugin_filter", plugin_filter, plugin_item.id, plugin_item.id == plugin_filter)
         print("plugin_item", plugin_item)
         print("dir(plugin_item)", dir(plugin_item))
+        print("dir(plugin_item.__class__)", dir(plugin_item.__class__))
+        print("dir(plugin_item.__doc__)", plugin_item.__doc__)
         print("plugin_item.name", plugin_item.name)
         print("plugin_item.id", plugin_item.id)
         print("plugin_item.filepath", plugin_item.filepath)
         # plugin_item.filepath returns C:\Users\Braden\AppData\Local\Ynput\AYON\dependency_packages\ayon_2402141620_windows.zip\dependencies\pyblish\plugin.py
         # returns not the path to the collect scene item plugin
         print("plugin_item.families", plugin_item.families)
+        print("__file__", __file__)
 
     def set_report(self, report):
         self._report_item = report
