@@ -150,12 +150,10 @@ class PublishReportMaker:
         label = None
         if hasattr(plugin, "label"):
             label = plugin.label
-        import inspect
-        print("dir(plugin)", dir(plugin))
         return {
             "id": plugin.id,
             "name": plugin.__name__,
-            "filepath": inspect.getfile(plugin.__class__),
+            "filepath": inspect.getfile(plugin),
             "families": plugin.families,
             "label": label,
             "order": plugin.order,
