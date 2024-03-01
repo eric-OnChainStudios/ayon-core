@@ -321,7 +321,7 @@ class ClassInfoWidget(QtWidgets.QWidget):
         print("plugin_item", plugin_item)
         print("dir(plugin_item)", dir(plugin_item))
         print("dir(plugin_item.__class__)", dir(plugin_item.__class__))
-        print("dir(plugin_item.__doc__)", plugin_item.__doc__)
+        print("plugin_item.__doc__", plugin_item.__doc__)
         print("plugin_item.name", plugin_item.name)
         print("plugin_item.id", plugin_item.id)
         print("plugin_item.filepath", plugin_item.filepath)
