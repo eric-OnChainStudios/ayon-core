@@ -298,16 +298,35 @@ class ClassInfoWidget(QtWidgets.QWidget):
     def __init__(self, parent):
         super(ClassInfoWidget, self).__init__(parent)
 
+        vertical_layout = QtWidgets.QVBoxLayout()
+        vertical_layout.setContentsMargins(8, 8, 8, 8)
+        self.setLayout(vertical_layout)
+
         form_layout = QtWidgets.QFormLayout()
-        self.setLayout(form_layout)
+        vertical_layout.addLayout(form_layout)
+
+        self._textedit_doc = QtWidgets.QTextEdit()
+        self._textedit_doc.setReadOnly(True)
+        self._textedit_doc.setMaximumHeight(300)
+        form_layout.addRow("Documentation", self._textedit_doc)
 
         self._lineedit_file_path = QtWidgets.QLineEdit()
         self._lineedit_file_path.setReadOnly(True)
         form_layout.addRow("File Path", self._lineedit_file_path)
 
+        self._lineedit_plugin_type = QtWidgets.QLineEdit()
+        self._lineedit_plugin_type.setReadOnly(True)
+        form_layout.addRow("Plugin type", self._lineedit_plugin_type)
+
+        self._lineedit_instances_labels = QtWidgets.QLineEdit()
+        self._lineedit_instances_labels.setReadOnly(True)
+        form_layout.addRow("Runs on instances", self._lineedit_instances_labels)
+
         self._lineedit_families = QtWidgets.QLineEdit()
         self._lineedit_families.setReadOnly(True)
         form_layout.addRow("Families", self._lineedit_families)
+
+        vertical_layout.addStretch(100)
 
         self._report_item = None
         self._instance_filter = set()
@@ -320,10 +339,17 @@ class ClassInfoWidget(QtWidgets.QWidget):
             self._lineedit_file_path.setText(str())
             self._lineedit_families.setText(str())
             return
+        instance_labels = list()
+        for instance_item in self._report_item.instance_items_by_id.values():
+            instance_labels.append(instance_item.label)
         self._plugin_filter = plugin_filter
         plugin_item = self._report_item.plugins_items_by_id[plugin_filter]
-        self._lineedit_file_path.setText(plugin_item.filepath)
-        self._lineedit_families.setText(",".join(plugin_item.families or list()))
+        self._textedit_doc.setText(plugin_item.doc or str())
+        self._lineedit_file_path.setText(plugin_item.filepath or str())
+        families_str = ", ".join(plugin_item.families or list())
+        self._lineedit_plugin_type.setText(plugin_item.plugin_type or str())
+        self._lineedit_instances_labels.setText(", ".join(instance_labels or list()))
+        self._lineedit_families.setText(families_str)
 
     def set_report(self, report):
         self._report_item = report
