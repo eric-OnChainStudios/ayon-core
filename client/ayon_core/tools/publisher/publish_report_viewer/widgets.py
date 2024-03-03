@@ -318,9 +318,9 @@ class ClassInfoWidget(QtWidgets.QWidget):
         self._lineedit_plugin_type.setReadOnly(True)
         form_layout.addRow("Plugin type", self._lineedit_plugin_type)
 
-        self._lineedit_instances_labels = QtWidgets.QLineEdit()
-        self._lineedit_instances_labels.setReadOnly(True)
-        form_layout.addRow("Runs on instances", self._lineedit_instances_labels)
+        # self._lineedit_instances_labels = QtWidgets.QLineEdit()
+        # self._lineedit_instances_labels.setReadOnly(True)
+        # form_layout.addRow("Runs on instances", self._lineedit_instances_labels)
 
         self._lineedit_families = QtWidgets.QLineEdit()
         self._lineedit_families.setReadOnly(True)
@@ -339,16 +339,16 @@ class ClassInfoWidget(QtWidgets.QWidget):
             self._lineedit_file_path.setText(str())
             self._lineedit_families.setText(str())
             return
-        instance_labels = list()
-        for instance_item in self._report_item.instance_items_by_id.values():
-            instance_labels.append(instance_item.label)
+        # instance_labels = list()
+        # for instance_item in self._report_item.instance_items_by_id.values():
+        #     instance_labels.append(instance_item.label)
         self._plugin_filter = plugin_filter
         plugin_item = self._report_item.plugins_items_by_id[plugin_filter]
         self._textedit_doc.setText(plugin_item.doc or str())
         self._lineedit_file_path.setText(plugin_item.filepath or str())
         families_str = ", ".join(plugin_item.families or list())
         self._lineedit_plugin_type.setText(plugin_item.plugin_type or str())
-        self._lineedit_instances_labels.setText(", ".join(instance_labels or list()))
+        # self._lineedit_instances_labels.setText(", ".join(instance_labels or list()))
         self._lineedit_families.setText(families_str)
 
     def set_report(self, report):
