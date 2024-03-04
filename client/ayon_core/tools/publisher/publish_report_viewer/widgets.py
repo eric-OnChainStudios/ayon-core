@@ -482,11 +482,11 @@ class PublishReportViewerWidget(QtWidgets.QFrame):
 
         logs_text_widget = DetailsWidget(details_tab_widget)
         plugin_load_report_widget = PluginLoadReportWidget(details_tab_widget)
-        class_info_widget = PluginInfoWidget(details_tab_widget)
+        plugin_info_widget = PluginInfoWidget(details_tab_widget)
 
         details_tab_widget.addTab(logs_text_widget, "Logs")
         details_tab_widget.addTab(plugin_load_report_widget, "Crashed plugins")
-        details_tab_widget.addTab(class_info_widget, "Plugin Info")
+        details_tab_widget.addTab(plugin_info_widget, "Plugin Info")
 
         middle_widget = QtWidgets.QWidget(self)
         middle_layout = QtWidgets.QGridLayout(middle_widget)
@@ -525,7 +525,7 @@ class PublishReportViewerWidget(QtWidgets.QFrame):
         self._report_item = None
         self._logs_text_widget = logs_text_widget
         self._plugin_load_report_widget = plugin_load_report_widget
-        self._class_info_widget = class_info_widget
+        self._plugin_info_widget = plugin_info_widget
 
         self._removed_instances_check = removed_instances_check
         self._instances_view = instances_view
@@ -575,7 +575,7 @@ class PublishReportViewerWidget(QtWidgets.QFrame):
         self._plugins_model.set_report(report)
         self._logs_text_widget.set_report(report)
         self._plugin_load_report_widget.set_report(report)
-        self._class_info_widget.set_report(report)
+        self._plugin_info_widget.set_report(report)
 
         self._ignore_selection_changes = False
 
@@ -603,7 +603,7 @@ class PublishReportViewerWidget(QtWidgets.QFrame):
                 plugin_ids.add(index.data(ITEM_ID_ROLE))
 
         self._logs_text_widget.set_plugin_filter(plugin_ids)
-        self._class_info_widget.set_plugin_filter(plugin_ids)
+        self._plugin_info_widget.set_plugin_filter(plugin_ids)
 
     def _on_skipped_plugin_check(self):
         self._plugins_proxy.set_ignore_skipped(
