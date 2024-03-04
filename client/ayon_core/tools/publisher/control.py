@@ -150,13 +150,15 @@ class PublishReportMaker:
         label = None
         if hasattr(plugin, "label"):
             label = plugin.label
-        result = inspect.getmro(plugin)
-        plugin_type = result[1].__name__
+        if plugin.__instanceEnabled__:
+            plugin_type = "Instance plugin"
+        else:
+            plugin_type = "Context plugin"
         return {
             "id": plugin.id,
             "name": plugin.__name__,
             "filepath": inspect.getfile(plugin),
-            "doc": plugin.__doc__,
+            "doc": inspect.getdoc(plugin),
             "plugin_type": plugin_type,
             "families": plugin.families,
             "label": label,
