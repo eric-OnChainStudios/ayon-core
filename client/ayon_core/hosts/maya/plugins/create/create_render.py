@@ -106,3 +106,9 @@ class CreateRenderlayer(plugin.RenderlayerCreator):
                     default=self.render_settings.get("enable_all_lights",
                                                      False))
         ]
+
+    def get_instance_signals_defs(self):
+        return [
+            ["tileRendering", "value_changed", "tilesX",  "setEnabled"],
+            ["tileRendering", "value_changed", "tilesY",  "setEnabled"]
+        ]

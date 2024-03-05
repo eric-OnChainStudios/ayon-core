@@ -1356,6 +1356,7 @@ class CreatorAttrsWidget(QtWidgets.QWidget):
 
         self._attr_def_id_to_instances = {}
         self._attr_def_id_to_attr_def = {}
+        self._attr_def_key_to_widget = {}
 
         # To store content of scroll area to prevent garbage collection
         self._content_widget = None
@@ -1381,6 +1382,7 @@ class CreatorAttrsWidget(QtWidgets.QWidget):
         self._content_widget = None
         self._attr_def_id_to_instances = {}
         self._attr_def_id_to_attr_def = {}
+        self._attr_def_key_to_widget = {}
 
         result = self._controller.get_creator_attribute_definitions(
             instances
@@ -1408,6 +1410,7 @@ class CreatorAttrsWidget(QtWidgets.QWidget):
             widget.value_changed.connect(self._input_value_changed)
             self._attr_def_id_to_instances[attr_def.id] = attr_instances
             self._attr_def_id_to_attr_def[attr_def.id] = attr_def
+            self._attr_def_key_to_widget[attr_def.key] = widget
 
             if attr_def.hidden:
                 continue
@@ -1444,6 +1447,18 @@ class CreatorAttrsWidget(QtWidgets.QWidget):
 
         self._scroll_area.setWidget(content_widget)
         self._content_widget = content_widget
+
+        self.setup_signals(instances)
+
+    def setup_signals(self, instances):
+        print("SETUP SIGNALS")
+        for instance in instances:
+            for source, signal_str, target, slot_str in instance.creator_signals_defs:
+                widget_source = self._attr_def_key_to_widget[source]
+                widget_target = self._attr_def_key_to_widget[target]
+                test = f"widget_source.{signal_str}.connect(widget_target.{slot_str})"
+                print(test)
+                exec(test)
 
     def _input_value_changed(self, value, attr_id):
         instances = self._attr_def_id_to_instances.get(attr_id)

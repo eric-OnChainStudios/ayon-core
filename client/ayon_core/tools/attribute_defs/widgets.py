@@ -226,6 +226,9 @@ class _BaseAttrDefWidget(QtWidgets.QWidget):
             )
         )
 
+    def setEnabled(self, enabled, *args, **kwargs):
+        QtWidgets.QWidget.setEnabled(self, enabled)
+
 
 class SeparatorAttrWidget(_BaseAttrDefWidget):
     def _ui_init(self):

@@ -885,7 +885,8 @@ class CreatedInstance:
         "product_type",
         "creator_identifier",
         "creator_attributes",
-        "publish_attributes"
+        "publish_attributes",
+        "creator_signals_defs"
     )
 
     def __init__(
@@ -898,12 +899,17 @@ class CreatedInstance:
         creator_label=None,
         group_label=None,
         creator_attr_defs=None,
+        creator_signals_defs=None,
     ):
         if creator is not None:
             creator_identifier = creator.identifier
             group_label = creator.get_group_label()
             creator_label = creator.label
             creator_attr_defs = creator.get_instance_attr_defs()
+            if hasattr(creator, "get_instance_signals_defs"):
+                creator_signals_defs = creator.get_instance_signals_defs()
+
+        print("ZZZ creator_signals_defs", creator_signals_defs)
 
         self._creator_label = creator_label
         self._group_label = group_label or creator_identifier
@@ -969,6 +975,8 @@ class CreatedInstance:
             creator_values,
             orig_creator_attributes
         )
+
+        self._data["creator_signals_defs"] = creator_signals_defs
 
         # Stored publish specific attribute values
         # {<plugin name>: {key: value}}
@@ -1138,6 +1146,10 @@ class CreatedInstance:
     @property
     def creator_attributes(self):
         return self._data["creator_attributes"]
+
+    @property
+    def creator_signals_defs(self):
+        return self._data["creator_signals_defs"]
 
     @property
     def creator_attribute_defs(self):
