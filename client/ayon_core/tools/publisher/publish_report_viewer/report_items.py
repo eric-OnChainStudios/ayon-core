@@ -13,10 +13,10 @@ class PluginItem:
         self.skipped = plugin_data["skipped"]
         self.passed = plugin_data["passed"]
 
-        self.doc = plugin_data["doc"]
-        self.filepath = plugin_data["filepath"]
-        self.plugin_type = plugin_data["plugin_type"]
-        self.families = plugin_data["families"]
+        self.doc = plugin_data.get("doc", "N/A")
+        self.filepath = plugin_data.get("filepath", "N/A")
+        self.plugin_type = plugin_data.get("plugin_type", "N/A")
+        self.families = plugin_data.get("families", "N/A")
 
         errored = False
         for instance_data in plugin_data["instances_data"]:
