@@ -302,7 +302,7 @@ class PluginInfoWidget(QtWidgets.QWidget):
 
         plugin_doc_widget = QtWidgets.QTextEdit(info_widget)
         plugin_doc_widget.setReadOnly(True)
-        plugin_doc_widget.setMaximumHeight(300)
+        # plugin_doc_widget.setMaximumHeight(300)
 
         plugin_path_widget = QtWidgets.QLineEdit(info_widget)
         plugin_path_widget.setReadOnly(True)
@@ -312,17 +312,35 @@ class PluginInfoWidget(QtWidgets.QWidget):
         plugin_families_widget = QtWidgets.QLineEdit(info_widget)
         plugin_families_widget.setReadOnly(True)
 
-        info_layout = QtWidgets.QFormLayout(info_widget)
+        row = 0
+
+        info_layout = QtWidgets.QGridLayout(info_widget)
         info_layout.setContentsMargins(0, 0, 0, 0)
-        info_layout.addRow("Documentation", plugin_doc_widget)
-        info_layout.addRow("File Path", plugin_path_widget)
-        info_layout.addRow("Plugin type", plugin_type_widget)
-        info_layout.addRow("Families", plugin_families_widget)
+        info_layout.addWidget(plugin_doc_widget, row, 0, 1, 2)
+        row += 1
+
+        label = QtWidgets.QLabel("File Path")
+        label.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+        info_layout.addWidget(label, row, 0)
+        info_layout.addWidget(plugin_path_widget, row, 1)
+        row += 1
+
+        label = QtWidgets.QLabel("Plugin type")
+        label.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+        info_layout.addWidget(label, row, 0)
+        info_layout.addWidget(plugin_type_widget, row, 1)
+        row += 1
+
+        label = QtWidgets.QLabel("File Families")
+        label.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+        info_layout.addWidget(label, row, 0)
+        info_layout.addWidget(plugin_families_widget, row, 1)
+        row += 1
 
         main_layout = QtWidgets.QVBoxLayout(self)
         main_layout.setContentsMargins(8, 8, 8, 8)
         main_layout.addWidget(info_widget, 0)
-        main_layout.addStretch(1)
+        # main_layout.addStretch(1)
 
         self._plugin_doc_widget = plugin_doc_widget
         self._plugin_path_widget = plugin_path_widget
